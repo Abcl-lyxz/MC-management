@@ -533,7 +533,7 @@ It does **not** approve any global config change or installing Node 24; those ge
 - [x] 3. Scaffold
 - [x] 4. Skeleton
 - [x] 5. State files
-- [ ] 6. Git hooks and secret scan
+- [x] 6. Git hooks and secret scan
 - [ ] 7. CI
 - [ ] 8. Extensions
 - [ ] 9. AGENTS.md and CLAUDE.md
