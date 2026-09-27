@@ -1,0 +1,14 @@
+pre-commit:
+  commands:
+    biome:
+      glob: "*.{js,mjs,ts,json,jsonc}"
+      run: pnpm exec biome check --no-errors-on-unmatched --colors=off {staged_files}
+    secretlint:
+      run: pnpm exec secretlint {staged_files}
+    protected:
+      run: node scripts/warn-protected.mjs {staged_files}
+
+pre-push:
+  commands:
+    check:
+      run: pnpm check

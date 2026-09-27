@@ -1,0 +1,130 @@
+{
+  "project": "MC-management",
+  "updated": "2026-09-27",
+  "slices": [
+    {
+      "id": "P0-S1",
+      "phase": 0,
+      "title": "Tooling + check",
+      "behavior": "Developer runs one command that formats, lints, typechecks, tests and validates status.",
+      "acceptance": ["Run pnpm check on a clean clone, see exit 0"],
+      "verify": "pnpm check",
+      "out_of_scope": ["bot features"],
+      "passes": false,
+      "evidence": ""
+    },
+    {
+      "id": "P0-S2",
+      "phase": 0,
+      "title": "Walking skeleton /ping",
+      "behavior": "In a guild, /ping replies 'pong · docker: ok' (or 'down').",
+      "acceptance": [
+        "Given the Docker daemon is running, when the ping handler runs, then the reply contains 'docker: ok'",
+        "Given the Docker client fails, then the reply contains 'docker: down'"
+      ],
+      "verify": "pnpm vitest run tests/unit tests/integration",
+      "out_of_scope": ["other commands"],
+      "passes": false,
+      "evidence": ""
+    },
+    {
+      "id": "P0-S3",
+      "phase": 0,
+      "title": "Container deploy",
+      "behavior": "docker compose builds and starts the bot with the socket mounted.",
+      "acceptance": [
+        "Run docker compose config, see no errors",
+        "Run docker compose up -d --build with a real token, see the bot online and /ping working"
+      ],
+      "verify": "docker compose config",
+      "out_of_scope": ["MC container"],
+      "passes": false,
+      "evidence": ""
+    },
+    {
+      "id": "P0-S4",
+      "phase": 0,
+      "title": "Guardrails",
+      "behavior": "Git hooks, CI, Claude hooks and permissions work.",
+      "acceptance": [
+        "A commit with a lint error is blocked",
+        "CI is green on push",
+        "A hook asks before editing tests/acceptance/* and denies reading .env"
+      ],
+      "verify": "pnpm check && pnpm exec lefthook run pre-commit",
+      "out_of_scope": [],
+      "passes": false,
+      "evidence": ""
+    },
+    {
+      "id": "P1-S1",
+      "phase": 1,
+      "title": "/setup admin role per guild",
+      "behavior": "Guild owner sets the admin role; stored in SQLite.",
+      "acceptance": [
+        "Given a non-owner, when /setup runs, then it is refused",
+        "Given the owner, when /setup admin-role:@R runs, then later admin checks use @R in that guild only"
+      ],
+      "verify": "pnpm vitest run tests/acceptance/p1-s1.test.ts",
+      "out_of_scope": ["channel config"],
+      "passes": false,
+      "evidence": ""
+    },
+    {
+      "id": "P1-S2",
+      "phase": 1,
+      "title": "/server start|stop|restart",
+      "behavior": "Admin (start: anyone) controls the MC container built from stored settings.",
+      "acceptance": [
+        "Given no container, when start runs, then an itzg container named mc is created with EULA=TRUE and a generated RCON password and is running",
+        "When stop runs, then the container stops and world data remains in the volume",
+        "Given a player, when stop runs, then it is refused"
+      ],
+      "verify": "pnpm vitest run tests/acceptance/p1-s2.test.ts",
+      "out_of_scope": ["worlds", "mods"],
+      "passes": false,
+      "evidence": ""
+    },
+    {
+      "id": "P1-S3",
+      "phase": 1,
+      "title": "/server status",
+      "behavior": "Shows state, health, version, players online, connect address.",
+      "acceptance": [
+        "Given a running healthy server, then status shows 'online' and player count",
+        "Given no container, then status shows 'not created'"
+      ],
+      "verify": "pnpm vitest run tests/acceptance/p1-s3.test.ts",
+      "out_of_scope": [],
+      "passes": false,
+      "evidence": ""
+    },
+    {
+      "id": "P1-S4",
+      "phase": 1,
+      "title": "/server logs",
+      "behavior": "Admin sees the last N log lines (max 1900 chars, code block).",
+      "acceptance": [
+        "Given a running server, when logs lines:20 runs, then at most 20 lines are returned in a code block"
+      ],
+      "verify": "pnpm vitest run tests/acceptance/p1-s4.test.ts",
+      "out_of_scope": ["live streaming"],
+      "passes": false,
+      "evidence": ""
+    },
+    {
+      "id": "P1-S5",
+      "phase": 1,
+      "title": "/console",
+      "behavior": "Admin runs an RCON command via rcon-cli and sees output.",
+      "acceptance": [
+        "Given a running server, when /console command:list runs, then output contains 'players online'",
+        "Given a player, then refused"
+      ],
+      "verify": "pnpm vitest run tests/acceptance/p1-s5.test.ts",
+      "out_of_scope": ["interactive console"],
+      "passes": false,
+      "evidence": ""
+    }
+  ]
+}

@@ -531,8 +531,8 @@ It does **not** approve any global config change or installing Node 24; those ge
 - [x] 1. Record
 - [x] 2. Verify first
 - [x] 3. Scaffold
-- [ ] 4. Skeleton
-- [ ] 5. State files
+- [x] 4. Skeleton
+- [x] 5. State files
 - [ ] 6. Git hooks and secret scan
 - [ ] 7. CI
 - [ ] 8. Extensions

@@ -1,0 +1,3 @@
+0002 — Minecraft runs in itzg/minecraft-server, managed via the Docker socket · 2026-09-27 · accepted
+
+Context: user wants no shell work after setup; the itzg image handles loaders, Modrinth packs, RCON (`rcon-cli`) and healthchecks through env vars. · Decision: the bot container mounts `/var/run/docker.sock` and creates/controls one MC container with dockerode; RCON goes through `docker exec rcon-cli` (no RCON library). Pin image tag `2026.9.2-java21` (verified on Docker Hub). · Consequences: the bot has root-equivalent access on the VPS; admin commands must be role-gated and the token guarded.
