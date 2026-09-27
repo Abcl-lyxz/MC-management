@@ -529,8 +529,8 @@ It does **not** approve any global config change or installing Node 24; those ge
 
 ## Execution checklist
 - [x] 1. Record
-- [ ] 2. Verify first
-- [ ] 3. Scaffold
+- [x] 2. Verify first
+- [x] 3. Scaffold
 - [ ] 4. Skeleton
 - [ ] 5. State files
 - [ ] 6. Git hooks and secret scan
