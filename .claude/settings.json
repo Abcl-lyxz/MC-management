@@ -1,0 +1,64 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm check*)",
+      "Bash(pnpm run *)",
+      "Bash(pnpm vitest *)",
+      "Bash(pnpm fix)",
+      "Bash(pnpm validate-status)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(docker ps*)",
+      "Bash(docker compose config*)"
+    ],
+    "ask": ["Bash(git push *)", "Bash(pnpm add *)", "Bash(docker compose up*)"],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Edit(./.env)",
+      "Edit(./.env.*)",
+      "mcp__plugin_shipd_ops__run",
+      "mcp__plugin_shipd_ops__push",
+      "mcp__plugin_shipd_ops__service"
+    ],
+    "disableBypassPermissionsMode": "disable"
+  },
+  "enabledPlugins": {
+    "ecc@ecc": false,
+    "claude-mem@thedotmack": false,
+    "supermemory@supermemory-plugins": false,
+    "shipd@shipd": false
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          { "type": "command", "command": "node scripts/agent/session-start.mjs", "timeout": 15 }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|NotebookEdit|Bash|PowerShell",
+        "hooks": [
+          { "type": "command", "command": "node scripts/agent/pre-tool.mjs", "timeout": 10 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "node scripts/agent/post-edit.mjs", "timeout": 30 }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{ "type": "command", "command": "node scripts/agent/stop.mjs", "timeout": 60 }]
+      }
+    ]
+  }
+}
