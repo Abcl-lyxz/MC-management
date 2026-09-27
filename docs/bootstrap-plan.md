@@ -534,9 +534,9 @@ It does **not** approve any global config change or installing Node 24; those ge
 - [x] 4. Skeleton
 - [x] 5. State files
 - [x] 6. Git hooks and secret scan
-- [ ] 7. CI
-- [ ] 8. Extensions
-- [ ] 9. AGENTS.md and CLAUDE.md
+- [x] 7. CI (check green; gitleaks first-push range issue, see PROGRESS)
+- [x] 8. Extensions
+- [x] 9. AGENTS.md and CLAUDE.md
 - [ ] 10. Claude hooks and permissions
 - [ ] 11. Fresh-session smoke test
 - [ ] 12. Close Phase 0
