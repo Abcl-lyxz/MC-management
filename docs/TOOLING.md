@@ -34,7 +34,14 @@ Node 24.21.0 (image `node:24.21.0-slim`) · pnpm 10.33.2 · TypeScript 7.0.2 · 
 ## Hooks
 | Event | Script | Purpose | Blocks? | Tested on |
 |---|---|---|---|---|
-| (filled in during bootstrap step 10) | | | | |
+| SessionStart (startup\|resume\|clear\|compact) | scripts/agent/session-start.mjs | print latest PROGRESS entry, next slice, git status, AGENTS.md Tools | no | 2026-09-27 (tests/unit/agent-hooks.test.ts; headless `claude -p` answered `pnpm check \| P0-S1`) |
+| PreToolUse (Read\|Edit\|Write\|NotebookEdit\|Bash\|PowerShell) | scripts/agent/pre-tool.mjs | deny .env access + dangerous commands; ask for protected files | yes (clear match) | 2026-09-27 (18 payload cases in agent-hooks.test.ts; live: blocked a Bash command containing `.env` in this session) |
+| PostToolUse (Edit\|Write) | scripts/agent/post-edit.mjs | Biome format/lint of the edited file, reports problems | no | 2026-09-27 (live: reformatted files after edits) |
+| Stop | scripts/agent/stop.mjs | block once if src/tests/scripts changed and `pnpm check-fast` fails | once; loop guard `stop_hook_active` | 2026-09-27 (agent-hooks.test.ts loop-guard case) |
+| git pre-commit (lefthook) | lefthook.yml | Biome on staged files, secretlint, protected-file warning | yes | 2026-09-27 (lint-error commit blocked; fake AWS key blocked) |
+| git pre-push (lefthook) | lefthook.yml | `pnpm check` | yes | 2026-09-27 (ran on first push) |
+
+Permissions (`.claude/settings.json`): deny rule `Read(./.env)` tested 2026-09-27 via headless session (Read was denied). Project hooks load in this session without restart; `enabledPlugins: false` for ecc/claude-mem/supermemory/shipd took effect for shipd immediately, ecc hooks stay active until a new session.
 
 How to disable temporarily: create `.claude/settings.local.json` (gitignored) with `{ "disableAllHooks": true }`, then restart the session. Git hooks: `pnpm exec lefthook uninstall` (reinstall with `pnpm setup`).
 

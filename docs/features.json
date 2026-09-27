@@ -10,8 +10,8 @@
       "acceptance": ["Run pnpm check on a clean clone, see exit 0"],
       "verify": "pnpm check",
       "out_of_scope": ["bot features"],
-      "passes": false,
-      "evidence": ""
+      "passes": true,
+      "evidence": "2026-09-27: pnpm check exit 0 locally (25 tests); CI run 36310157887 job check = success"
     },
     {
       "id": "P0-S2",
@@ -24,8 +24,8 @@
       ],
       "verify": "pnpm vitest run tests/unit tests/integration",
       "out_of_scope": ["other commands"],
-      "passes": false,
-      "evidence": ""
+      "passes": true,
+      "evidence": "2026-09-27: pnpm vitest run tests/unit tests/integration pass; integration hit real Docker Desktop daemon (docker: ok)"
     },
     {
       "id": "P0-S3",

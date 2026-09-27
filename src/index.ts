@@ -1,4 +1,4 @@
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 import pino from 'pino';
 import * as ping from './commands/ping.ts';
 import { loadConfig } from './config.ts';
@@ -23,7 +23,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     await cmd.execute(interaction);
   } catch (err) {
     log.error({ err, command: interaction.commandName }, 'command failed');
-    const msg = { content: 'Something went wrong.', ephemeral: true } as const;
+    const msg = { content: 'Something went wrong.', flags: MessageFlags.Ephemeral } as const;
     if (interaction.replied || interaction.deferred) await interaction.followUp(msg);
     else await interaction.reply(msg);
   }

@@ -537,7 +537,7 @@ It does **not** approve any global config change or installing Node 24; those ge
 - [x] 7. CI (check green; gitleaks first-push range issue, see PROGRESS)
 - [x] 8. Extensions
 - [x] 9. AGENTS.md and CLAUDE.md
-- [ ] 10. Claude hooks and permissions
-- [ ] 11. Fresh-session smoke test
-- [ ] 12. Close Phase 0
+- [x] 10. Claude hooks and permissions
+- [x] 11. Fresh-session smoke test
+- [x] 12. Close Phase 0 (P0-S3, P0-S4 open — see PROGRESS)
 - [ ] 13. Final report
